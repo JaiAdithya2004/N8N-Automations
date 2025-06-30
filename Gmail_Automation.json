@@ -1,0 +1,116 @@
+{
+  "name": "Gmail Automation",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        60
+      ],
+      "id": "d09c86a0-7044-45be-b3ec-99496b4a84f1",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1Zw7FgqvW_suMdfNPMsnE4eL5Xd_enppsBOdnT1V4a44",
+          "mode": "list",
+          "cachedResultName": "Gmail Automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Zw7FgqvW_suMdfNPMsnE4eL5Xd_enppsBOdnT1V4a44/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Zw7FgqvW_suMdfNPMsnE4eL5Xd_enppsBOdnT1V4a44/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -20,
+        60
+      ],
+      "id": "8d43af07-5d86-4c35-ac15-8857cee8cc54",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "jcmkl3vqgesHxbn2",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json['Mail id'] }}",
+        "subject": "Testing",
+        "emailType": "text",
+        "message": "Hey hope u r doing great ",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        220,
+        60
+      ],
+      "id": "83a24e3b-59fb-4bd0-aba0-9696234b250b",
+      "name": "Gmail",
+      "webhookId": "9fc093b8-9923-4681-ab8f-95cea1617952",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "quUynLmCoKUD9rdP",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "597520c6-09b7-49db-85b6-2413946569b8",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0a05a6b7c12c9cf762a6923044f9354a5781e17aaaf9afbfb8f36ec4adc3a1d0"
+  },
+  "id": "ey7egSUr6Fj1Jja5",
+  "tags": []
+}
