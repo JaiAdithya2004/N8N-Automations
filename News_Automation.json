@@ -1,0 +1,275 @@
+{
+  "name": "News Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -320,
+        -40
+      ],
+      "id": "2d402827-c9a3-4d5f-931c-3ae76f79e60e",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://collegedunia.com/news",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "sendHeaders": true,
+        "specifyHeaders": "json",
+        "jsonHeaders": "{\n  \"User-Agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36\",\n  \"Accept\": \"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\",\n  \"Accept-Language\": \"en-US,en;q=0.5\",\n  \"Referer\": \"https://www.google.com\",\n  \"Connection\": \"keep-alive\"\n}\n",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -100,
+        -40
+      ],
+      "id": "dc050f4a-e6ba-4a1a-8f14-cfe7db97ea39",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "headline",
+              "cssSelector": "ul.jsx-2468829639.list-unstyled"
+            },
+            {
+              "key": "Article URL",
+              "cssSelector": "ul.jsx-2468829639.list-unstyled"
+            },
+            {
+              "key": "Date",
+              "cssSelector": "span.jsx-2468829639.d-block.text-silver.text-sm.mt-2.time"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        120,
+        -40
+      ],
+      "id": "a32c63df-6781-463b-987f-d21e7e56b03b",
+      "name": "HTML"
+    },
+    {
+      "parameters": {
+        "jsCode": "const inputText = items[0].json.headline;\nconst urlText = items[0].json[\"Article URL\"];\nconst date = items[0].json.Date;\n\n// Split by separator (line of dashes)\nconst blocks = inputText.split('--------------------------------------------------------------------------------');\n\n// Build array of items\nconst results = blocks.map(block => {\n  const match = block.match(/^(.*?)\\n\\[(.*?)\\]$/m); // Match headline and URL\n  if (!match) return null;\n\n  const title = match[1].trim();\n  const url = match[2].trim();\n\n  return {\n    json: {\n      headline: title,\n      url: `https://collegedunia.com${url}`, // Assuming relative URLs\n      date: date\n    }\n  };\n}).filter(Boolean); // Remove nulls\n\nreturn results;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        340,
+        -40
+      ],
+      "id": "3160a133-208a-498d-a77b-cbdb9ff15b2d",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "901df0e9-79db-4a3f-9767-6cf0c4be5de8",
+              "name": "url",
+              "value": "={{ $json.url }}",
+              "type": "string"
+            },
+            {
+              "id": "6216541f-d75d-4ef5-9888-860259128077",
+              "name": "headline",
+              "value": "={{ $json.headline }}",
+              "type": "string"
+            },
+            {
+              "id": "cb31a646-476e-4134-890b-a0261be039c5",
+              "name": "date",
+              "value": "={{ $json.date }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        560,
+        -40
+      ],
+      "id": "569097da-6182-41e5-8420-a961eb1ce836",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1I0KVxeyFwAUpQlD-BfOoqXTvPh_2Z7jJ98HtdVW96o0",
+          "mode": "list",
+          "cachedResultName": "News Updation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1I0KVxeyFwAUpQlD-BfOoqXTvPh_2Z7jJ98HtdVW96o0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1I0KVxeyFwAUpQlD-BfOoqXTvPh_2Z7jJ98HtdVW96o0/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Headline": "={{$json[\"headline\"]}}",
+            "URL ": "= {{$json[\"url\"]}}",
+            "Date": "={{$json[\"date\"]}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Headline",
+              "displayName": "Headline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "URL ",
+              "displayName": "URL ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        380,
+        240
+      ],
+      "id": "0206f76f-d8ec-4764-b210-c3e4d19d7dd2",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "jcmkl3vqgesHxbn2",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c3ca7eda-25ae-4ef8-979b-476d783581fe",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0a05a6b7c12c9cf762a6923044f9354a5781e17aaaf9afbfb8f36ec4adc3a1d0"
+  },
+  "id": "3zGsk6807XIljxRy",
+  "tags": []
+}
