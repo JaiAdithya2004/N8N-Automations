@@ -130,6 +130,10 @@ Gmail - Send Message
 – Emails the final report to stakeholders as an attachment or HTML message.
 
 
+Here is an Report Generated:
+![image](https://github.com/user-attachments/assets/e4e563fd-1953-48dd-876d-ee4bc9fdc454)
+
+
 
 
 
