@@ -66,3 +66,59 @@ Appends the final transformed data as a new row in a connected Google Sheet for 
 
 
 
+
+
+
+
+
+***Weekly Business Report Generator***
+
+
+
+
+
+
+![image](https://github.com/user-attachments/assets/7722d878-0a0b-4481-8e98-a1f1c0ec252f)
+
+
+
+
+This workflow automates the generation, formatting, and delivery of a weekly business performance report using:
+
+1) Google Sheets (as a data source),
+
+2) GPT-4o or language model (to summarize/analyze),
+
+3) HTML formatting,
+
+4) PDF conversion,
+
+5) Gmail (for delivery)
+
+Workflow Steps Breakdown:
+
+Schedule Trigger – Automatically starts the workflow weekly (e.g., every Monday at 9 AM).
+
+Google Sheets - Read Sheet – Pulls real-time business metrics from a connected spreadsheet.
+
+Code Node – Formats and structures data for effective AI processing.
+
+HTTP Request - GPT-4o – Sends data to GPT-4o to generate summaries, insights, and suggestions.
+
+HTML Node - Generate HTML Template – Converts the AI output into a styled, readable HTML report.
+
+Edit Fields Node – Allows optional manual review or field updates before final formatting.
+
+HTTP Request (PDFLayer) – Transforms the HTML into a shareable and professional PDF report.
+
+Gmail - Send Message – Emails the final report to stakeholders as an attachment or HTML message.
+
+
+
+
+
+
+
+
+
+
