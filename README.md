@@ -97,21 +97,37 @@ This workflow automates the generation, formatting, and delivery of a weekly bus
 
 Workflow Steps Breakdown:
 
-Schedule Trigger – Automatically starts the workflow weekly (e.g., every Monday at 9 AM).
+Schedule Trigger 
 
-Google Sheets - Read Sheet – Pulls real-time business metrics from a connected spreadsheet.
+– Automatically starts the workflow weekly (e.g., every Monday at 9 AM).
 
-Code Node – Formats and structures data for effective AI processing.
+Google Sheets 
 
-HTTP Request - GPT-4o – Sends data to GPT-4o to generate summaries, insights, and suggestions.
+- Read Sheet – Pulls real-time business metrics from a connected spreadsheet.
 
-HTML Node - Generate HTML Template – Converts the AI output into a styled, readable HTML report.
+Code Node 
 
-Edit Fields Node – Allows optional manual review or field updates before final formatting.
+– Formats and structures data for effective AI processing.
 
-HTTP Request (PDFLayer) – Transforms the HTML into a shareable and professional PDF report.
+HTTP Request 
 
-Gmail - Send Message – Emails the final report to stakeholders as an attachment or HTML message.
+- GPT-4o – Sends data to GPT-4o to generate summaries, insights, and suggestions.
+
+HTML Node
+
+- Generate HTML Template – Converts the AI output into a styled, readable HTML report.
+
+Edit Fields Node 
+
+– Allows optional manual review or field updates before final formatting.
+
+HTTP Request (PDFLayer) 
+
+– Transforms the HTML into a shareable and professional PDF report.
+
+Gmail - Send Message
+
+– Emails the final report to stakeholders as an attachment or HTML message.
 
 
 
