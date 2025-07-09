@@ -1,0 +1,298 @@
+{
+  "name": "Weekly metrics",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "daysInterval": 6,
+              "triggerAtHour": 23
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "78b8d1b9-17b5-4c4d-99da-19eb9d835e14",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "15LeAZJqZIRwl0aNG6_BD2ys22_Qs8f3cKooHrZeuks8",
+          "mode": "list",
+          "cachedResultName": "Weekly_Metrics",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15LeAZJqZIRwl0aNG6_BD2ys22_Qs8f3cKooHrZeuks8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15LeAZJqZIRwl0aNG6_BD2ys22_Qs8f3cKooHrZeuks8/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        180,
+        0
+      ],
+      "id": "c1371fa8-71bc-4dd5-a401-469000d9064d",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "jcmkl3vqgesHxbn2",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the input data (array of rows)\nconst rows = items.map(item => item.json);\n\n// Initialize accumulators\nlet totalLeads = 0;\nlet totalSales = 0;\nlet totalConversions = 0;\nlet totalRevenue = 0;\nlet totalAdSpend = 0;\nlet totalClicks = 0;\nlet totalVisitors = 0;\nlet totalCampaigns = 0;\n\nrows.forEach(row => {\n  totalLeads += parseInt(row.Leads);\n  totalSales += parseInt(row.Sales);\n  totalConversions += parseInt(row.Conversions);\n  totalRevenue += parseFloat(row.Revenue);\n  totalAdSpend += parseFloat(row.Ad_Spend);\n  totalClicks += parseInt(row.Campaign_Clicks);\n  totalVisitors += parseInt(row.Website_Visitors);\n  totalCampaigns += parseInt(row.Campaigns_Running);\n});\n\nconst avgCampaigns = (totalCampaigns / rows.length).toFixed(1);\n\n// Create formatted summary object\nconst summary = {\n  summary: `Weekly business performance from ${rows[0].Date} to ${rows[rows.length - 1].Date}`,\n  totals: {\n    leads: totalLeads,\n    sales: totalSales,\n    conversions: totalConversions,\n    revenue: `₹${totalRevenue}`,\n    ad_spend: `₹${totalAdSpend}`,\n    website_visitors: totalVisitors,\n    campaign_clicks: totalClicks,\n    avg_campaigns_running: avgCampaigns\n  }\n};\n\nreturn [{ json: summary }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        340,
+        0
+      ],
+      "id": "cd999ffd-5fee-4581-abd0-34a4f154026d",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "html": "<!DOCTYPE html>\n<html>\n<head>\n  <meta charset=\"UTF-8\" />\n  <style>\n    body {\n      font-family: Arial, sans-serif;\n      padding: 30px;\n      line-height: 1.6;\n    }\n    h1 {\n      color: #2c3e50;\n      font-size: 28px;\n    }\n    pre {\n      background-color: #f4f4f4;\n      padding: 20px;\n      border-radius: 6px;\n      white-space: pre-wrap;\n    }\n  </style>\n</head>\n<body>\n  <h1>📊 Weekly Business Performance Report</h1>\n  <pre>{{ $json.candidates[0].content.parts[0].text }}</pre>\n</body>\n</html>\n"
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        700,
+        0
+      ],
+      "id": "e7b545df-9615-45c3-9115-c06914799632",
+      "name": "HTML"
+    },
+    {
+      "parameters": {
+        "sendTo": "jaiadityam@hotmail.com",
+        "subject": "Report",
+        "message": "I have attached the ",
+        "options": {
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {}
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        840,
+        220
+      ],
+      "id": "fcf467f3-0966-453f-bc11-ad25dbabfec9",
+      "name": "Gmail",
+      "webhookId": "e54f1c04-ef74-462a-90fc-5beddd2c0ad2",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "quUynLmCoKUD9rdP",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyBo07zlrBBaEEGF6WfE5PsMClyadshS-n0",
+        "sendHeaders": true,
+        "specifyHeaders": "={\n  \"Content-Type\": \"application/json\",\n  \"X-goog-api-key\": \"AIzaSyBo07zlrBBaEEGF6WfE5PsMClyadshS-n0\"\n}\n\n",
+        "headerParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"contents\": [\n    {\n      \"parts\": [\n        {\n          \"text\": \"You are a business analyst. Based on the following weekly business data, generate:\\n\\n1. A brief summary\\n2. 3 insights\\n3. 3 recommendations\\n\\nData:\\nWeekly business performance from {{$json.summary}}\\n\\nLeads: {{$json.totals.leads}}\\nSales: {{$json.totals.sales}}\\nConversions: {{$json.totals.conversions}}\\nRevenue: {{$json.totals.revenue}}\\nAd Spend: {{$json.totals.ad_spend}}\\nWebsite Visitors: {{$json.totals.website_visitors}}\\nCampaign Clicks: {{$json.totals.campaign_clicks}}\\nAvg Campaigns Running: {{$json.totals.avg_campaigns_running}}\"\n        }\n      ]\n    }\n  ]\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        500,
+        0
+      ],
+      "id": "efedb4bd-feb2-480e-8d57-e00e7d343247",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.pdflayer.com/api/convert",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "access_key",
+              "value": "7b3bf3dadca16337ddf82dabbdbd206a"
+            },
+            {
+              "name": "document_html",
+              "value": "={{ $json[\"html\"] }}"
+            },
+            {
+              "name": "title",
+              "value": "Weekly Report"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "=access_key",
+              "value": "7b3bf3dadca16337ddf82dabbdbd206a"
+            },
+            {
+              "name": "document_html",
+              "value": "={{ $json[\"document_html\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        580,
+        220
+      ],
+      "id": "358b1670-9f61-4210-a27a-c3e4281decf4",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "322cdf06-bd36-45b3-ac07-c95a91c0cf61",
+              "name": "document_html",
+              "value": "={{ $json[\"html\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        920,
+        0
+      ],
+      "id": "3d142d26-7ea2-434f-8754-d6872c05052c",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1e7bc5e1-ba9d-4007-9eb2-b2b913beab61",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0a05a6b7c12c9cf762a6923044f9354a5781e17aaaf9afbfb8f36ec4adc3a1d0"
+  },
+  "id": "2kMbRjWBW8vupLQa",
+  "tags": []
+}
