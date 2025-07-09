@@ -103,7 +103,7 @@ Schedule Trigger
 
 Google Sheets 
 
-- Read Sheet – Pulls real-time business metrics from a connected spreadsheet.
+-Read Sheet – Pulls real-time business metrics from a connected spreadsheet.
 
 Code Node 
 
@@ -111,11 +111,11 @@ Code Node
 
 HTTP Request 
 
-- GPT-4o – Sends data to GPT-4o to generate summaries, insights, and suggestions.
+-GPT-4o – Sends data to GPT-4o to generate summaries, insights, and suggestions.
 
 HTML Node
 
-- Generate HTML Template – Converts the AI output into a styled, readable HTML report.
+-Generate HTML Template – Converts the AI output into a styled, readable HTML report.
 
 Edit Fields Node 
 
