@@ -138,6 +138,75 @@ Here is an Report Generated:
 
 
 
+***Automated Video Generation & Upload Workflow***
+
+This is an **fully automated video content pipeline** built
+
+- Reads content ideas from Google Sheets
+- Generating videos using an AI API 
+- Polling the API for video status
+- Uploading the video to **Google Drive**
+- Uploading the video to **YouTube**
+- Updating the spreadsheet with the generated URLs
+This can also be made run on a scheduled interval of time
+
+
+<img width="1502" height="642" alt="Screenshot 2025-07-10 175224" src="https://github.com/user-attachments/assets/72478659-0ccc-47d4-b69b-b3f10eaedf6e" />
+
+
+
+Workflow:
+ 1. Schedule Trigger
+Runs automatically on a set interval (hourly/daily).
+
+ 2. Fetch Content from Google Sheets
+Pulls new video prompts (topics/scripts) from a spreadsheet.
+
+ 3. Prepare Prompt
+Formats the data before sending to the video API.
+
+ 4. Generate Video
+Sends the prompt to an AI video generation API (e.g., ModelsLab).
+
+ 5. Poll for Status
+Waits 60 seconds and checks if the video is ready. Loops until complete.
+
+ 6. Fetch Video URL
+Retrieves the download link once rendering is done.
+
+7. Download Video
+Downloads the final video file for upload.
+
+ 8. Upload to Google Drive
+Saves a copy of the video to a designated Drive folder.
+
+ 9. Upload to YouTube
+Publishes the video to YouTube with title and description.
+
+ 10. Update Sheet
+Logs video metadata and YouTube link back to the spreadsheet.
+
+Here are the Features:
+
+Zero manual effort once setup,                   
+Scales content creation via AI,                  
+Google Sheet logs all video details,             
+Can handle hundreds of videos on autopilot,      
+Built-in loop for retrying until video is ready. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
